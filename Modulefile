@@ -1,0 +1,8 @@
+name    'rocha-dpm'
+version '0.1.0'
+source 'git://github.com/rochaporto/puppet-dpm'
+author 'rocha'
+license 'Apache License, Version 2.0 (the "License")'
+summary 'Resources for managing gLite Disk Pool Manager (DPM) client and server installations'
+description 'This module provides classes and definitions required to manage installations of the gLite Disk Pool Manager (DPM) clients and servers. It includes all required manifests to install and configure a Head Node, Disk Node and Client, along with its individual services. It also includes manifests to perform essential DPM operations, like setting up filesystems and pools, managing namespace permissions, etc.'
+project_page 'https://svnweb.cern.ch/trac/lcgdm'
