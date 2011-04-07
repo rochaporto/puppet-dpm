@@ -28,11 +28,12 @@ class dpm::service {
   }
 
   user { "dpmmgr": 
-    ensure  => present,
-    comment => "dpm manager", 
-    uid     => 151, 
-    gid     => "dpmmgr", 
-    require => Group["dpmmgr"],
+    ensure     => present,
+    comment    => "dpm manager", 
+    uid        => 151, 
+    gid        => "dpmmgr", 
+    managehome => true,
+    require    => Group["dpmmgr"],
   }
 
   file { 
