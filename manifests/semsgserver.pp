@@ -18,15 +18,24 @@ class dpm::semsgserver {
       owner   => root,
       group   => root,
       mode    => 0644,
+      content => template("dpm/SEMsgdaemon.erb");
+    "semsg-config":
+      name    => "/opt/lcg/etc/SEMsgConfig_dpmhead.cf",
+      owner   => root,
+      group   => root,
+      mode    => 0644,
+      content => template("dpm/SEMsgConfig_dpmhead.cf.erb");
   }
 
-  service {
+  service { "SEMsgdaemon":
     ensure     => running,
     enable     => true,
     hasrestart => true,
-    hasstatus  => true,
-    subscribe  => File["semsg-serviceconfig"],
-    require    => [ Package["SEMsgCore"], Package["SEMsgPlugins"], ],
+    subscribe  => File["semsg-serviceconfig", "semsg-config"],
+    status     => "ps -ef | grep SEMsgdaemon",
+    require    => [ 
+      File["semsg-serviceconfig", "semsg-config"], Package["semsgcore"], Package["semsgplugins"], 
+    ],
   }
 
 }

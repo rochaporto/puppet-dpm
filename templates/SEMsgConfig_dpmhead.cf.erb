@@ -1,0 +1,91 @@
+#####################################################################
+# Configuration file for the SEMsg library and daemons
+# By Fabrizio Furano (CERN IT-GT-DMS)
+# Jan 2011
+#
+# Remember that the envvars are available here, thus they can be used.
+
+
+
+
+
+######################################################################
+# Parameters for the consumer daemon
+#
+
+#consd.brokerURI: tcp://gridmsg001.cern.ch:6166?wireFormat=openwire&transport.commandTracingEnabled=true
+consd.brokerURI: <%= semsg_dpm_brokeruri %>
+
+# Specifying both queue and topic is an error. We should choose one
+#consd.topic: SEMsg_downstream
+consd.queue: Consumer.testDPNS1.SEMsg_downstream
+
+# The consumer plugin that does actions when the msgs are received
+consd.consplugin: /opt/lcg/lib64/libSEMsgConsumer_dpm.so
+
+# The debug level 0->10
+consd.debug: 10
+
+# The cert/key to be used to verify the messages' signatures and by the
+# plugin to talk to DPM
+consd.cert: /etc/grid-security/<%= dpm_user %>/dpmcert.pem
+consd.certkey: /etc/grid-security/<%= dpm_user %>/dpmkey.pem
+consd.CAdir: /etc/grid-security/certificates
+
+# The host of the dpnsdaemon (used by the DPM msg consumer plugin)
+consd.dpmplugin.host: <%= dpm_ns_host %> 
+
+# Parameters of the AMQ-cpp library SSL layer. Use these to connect to the broker using SSL
+# ... of course together with an ssl URI
+consd.trustStore:
+consd.trustStorePassword:
+consd.keyStore:
+consd.keyStorePassword:
+
+######################################################################
+# Parameters for the low level consumer
+#
+
+
+
+######################################################################
+# Parameters for the producer API
+#
+
+#prodapi.brokerURI: .brokerURI: tcp://gridmsg001.cern.ch:6166?wireFormat=openwire&transport.commandTracingEnabled=true
+prodapi.brokerURI: <%= semsg_dpm_brokeruri %>
+
+# Specifying both queue and topic is an error. We should choose one
+prodapi.topic: SEMsg_upstream
+#prodapi.queue: SEMsg_upsteram 
+
+# The debug level 0->10
+prodapi.debug: 10
+
+# The producer plugin
+prodapi.prodplugin: /opt/lcg/lib64/libSEMsgProducer_dpm.so
+
+# Let's use the same client certificate used by DPM
+prodapi.cert: ${X509_USER_CERT}
+prodapi.certkey: ${X509_USER_KEY}
+prodapi.CAdir: /etc/grid-security/certificates
+
+# Parameters of the AMQ-cpp library SSL layer. Use these to connect to the broker using SSL
+# ... of course together with an ssl URI
+prodapi.trustStore: 
+prodapi.trustStorePassword:
+prodapi.keyStore:
+prodapi.keyStorePassword:
+
+######################################################################
+# Parameters for the low level producer
+#
+
+# The aggregation interval for bulk requests (ms)
+prod.aggrinterval: 500
+# Max # of requests to put in a single message
+prod.bulkmax: 1000
+# Max number of messages in the queue before they get dropped
+prod.maxqueue: 100000
+# TTL of a message in the queue (sec)
+prod.queueTTL: 86400

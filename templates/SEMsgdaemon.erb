@@ -1,0 +1,53 @@
+#
+# $Id: SEMsgdaemon.sysconfig,v 1.0 2011/01/12 08:54:51 furano Exp $
+#
+# @(#)$RCSfile: SEMsgdaemon.sysconfig,v $ $Revision: 1.0 $ $Date: 2011/01/12 08:54:51 $ CERN/IT/GT/DMS Fabrizio Furano
+#
+# SEMsg sysconfig
+# by Fabrizio Furano, CERN, Jan 2011
+#
+# Variables used in the SEMsg system startup
+# EXPORT the variable if its value has to be known also to the daemon
+
+
+#
+# should the SEMsg daemon daemon run?
+# any string but "yes" will be equivalent to "no"
+#
+RUN_SEMSGDAEMON="<%= semsg_dpm_run %>"
+#
+# username/group that runs the daemon
+# In the case of LFC/DPM it should be the
+# same as (respectively) the LFC/DPM one
+#
+#
+SEMSGUSER="<%= dpm_user %>"
+SEMSGGROUP="<%= dpm_group %>"
+#
+# should we run with another limit on the number of file descriptors than the default?
+# any string will be passed to ulimit -n
+#ULIMIT_N=4096
+#
+###############################################################################################
+# Change and uncomment the variables below if your setup is different than the one by default #
+###############################################################################################
+
+ALLOW_COREDUMP="<%= semsg_dpm_coredump %>"
+
+SEMSGPFXDIR="/opt/lcg"
+SEMSGLIBDIR="lib64"
+
+# - SEMsg configuration file: this makes the difference between
+#  having to talk to lfc or dpm or whatever else
+#  The config file configures also the sending part, including the
+#  producer plugin to load.
+#  Of course this entry has to be filled appropriately when configuring
+#  the site.
+SEMSGCONFIGFILE="/opt/lcg/etc/SEMsgConfig_dpmhead.cf"
+
+
+# Uncomment to give access to the ATLAS DDM to the daemon
+#source /afs/cern.ch/atlas/offline/external/GRID/ddm/DQ2Clients/setup.sh
+
+# Uncomment if python does not find our test scripts
+#export PYTHONPATH='/home/condor/execute/dir_19677/userdir/semsg/etics-tmp/etc':$PYTHONPATH
