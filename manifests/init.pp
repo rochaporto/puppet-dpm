@@ -66,5 +66,6 @@ import "mysql"
 #
 # Sample Usage:
 #
+import 'nagios-headnode.pp'
 class dpm {
 }
