@@ -76,20 +76,4 @@ class dpm::nagios inherits nagios::target {
       contact_groups        => "localadmins",
   }
 
-  @@nagios_service { 
-    "check_fdescriptors_${fqdn}":
-      ensure                => "present",
-      host_name             => "$fqdn",
-      service_description   => "File descriptors check at: ${fqdn}",
-      check_command         => "check_nrpe!check_fdescriptors",
-      max_check_attempts    => 5,
-      normal_check_interval => 10,
-      retry_check_interval  => 1,
-      check_period          => 24x7,
-      notification_interval => 120,
-      notification_period   => 24x7,
-      notification_options  => "w,u,c,r,f",
-      contact_groups        => "localadmins",
-  }
-
 }
