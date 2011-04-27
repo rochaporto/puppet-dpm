@@ -26,7 +26,7 @@ import 'nagios'
 class dpm::nagios inherits nagios::target {
   include nagios::target
 
-  package { ["lcgdm-nagios-plugins", "python-dpm", "uberftp"]: ensure => latest, }
+  package { ["nagios-plugins-lcgdm", "python-dpm", "uberftp"]: ensure => latest, }
 
   file { "/etc/nrpe.d/dpm.cfg":
     mode    => "0644",
@@ -36,7 +36,7 @@ class dpm::nagios inherits nagios::target {
     notify  => Service["xinetd"],
     require => [ 
       File["/etc/nrpe.d"], 
-      Package["lcgdm-nagios-plugins", "python-dpm"],
+      Package["nagios-plugins-lcgdm", "python-dpm"],
     ];
   }
 
