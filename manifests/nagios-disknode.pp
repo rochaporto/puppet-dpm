@@ -15,6 +15,12 @@ class dpm::nagios::disknode inherits dpm::nagios {
     hostgroups => "dpm-disknodes",
   }
 
+  @@nagios_command { 
+    "check_rfio":
+      ensure        => "present",
+      command_line  => "\$USER1\$/check_rfio -H \$HOSTADDRESS$ -w \$ARG1$ -c \$ARG2$";
+  }
+
   @@nagios_service { 
     "check_gridftp_${fqdn}":
       ensure                => "present",
@@ -25,7 +31,7 @@ class dpm::nagios::disknode inherits dpm::nagios {
       ensure                => "present",
       host_name             => "$fqdn",
       service_description   => "RFIO check at: ${fqdn}",
-      check_command         => "check_nrpe!check_rfio!${fqdn} 100 1000";
+      check_command         => "check_rfio!100!1000";
   }
 
 }
