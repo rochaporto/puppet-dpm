@@ -13,7 +13,7 @@
 #
 class dpm::nfsclient {
   include dpm::client
-  include glite::nfsclient
+  include grid-common::nfsclient
 
   package { "autofs": ensure => latest, }
 
