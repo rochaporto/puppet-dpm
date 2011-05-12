@@ -1,7 +1,7 @@
 #
 # dpm/init.pp
 #
-import "glite"
+import "grid-common"
 import "mysql"
 
 #

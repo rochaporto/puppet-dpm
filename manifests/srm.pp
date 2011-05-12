@@ -15,7 +15,13 @@ class dpm::srm {
   include dpm::service
   include mysql::server
 
-  package { ["DPM-srm-server-mysql"]: ensure=> latest, notify => Exec["glite_ldconfig"], }
+  package { "DPM-srm-server-mysql": 
+    ensure => latest, 
+    notify => $grid_flavour ? {
+      "glite" => Exec["glite_ldconfig"], 
+      default => undef,
+    },
+  }
 
   file { 
     "srm-sysconfig":

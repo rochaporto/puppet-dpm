@@ -14,7 +14,13 @@
 class dpm::rfio  {
   include dpm::service
 
-  package { ["DPM-rfio-server"]: ensure=> latest, notify => Exec["glite_ldconfig"], }
+  package { "DPM-rfio-server": 
+    ensure=> latest, 
+    notify => $grid_flavour ? {
+      "glite" => Exec["glite_ldconfig"],
+      default => undef,
+    },
+  }
 
   file { 
     "rfio-sysconfig":

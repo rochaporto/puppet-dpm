@@ -17,7 +17,10 @@ class dpm::nameserver {
 
   package { "DPM-name-server-mysql":
     ensure  => latest, 
-    notify  => Exec["glite_ldconfig"], 
+    notify  => $grid_flavour ? {
+      "glite" => Exec["glite_ldconfig"], 
+      default => undef,
+    },
     require => Package["lcg-CA"],
   }
 
@@ -65,7 +68,10 @@ class dpm::nameserver {
   }
 
   mysql::server::db { "cns_db":
-    source => "/opt/lcg/share/DPM/create_dpns_tables_mysql.sql",
+    source => $grid_flavour ? {
+      "glite" => "/opt/lcg/share/DPM/create_dpns_tables_mysql.sql",
+      default => "/usr/share/DPM/create_dpns_tables_mysql.sql",
+    }      
   }
 
   dpm::shift::trust_entry { "trustentry_dpns": component => "DPNS", }

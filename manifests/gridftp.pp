@@ -14,9 +14,13 @@ class dpm::gridftp {
   include dpm::service
 
   # TODO: dpm-devel only need due to missing dep in DPM-DSI
-  package { ["DPM-DSI", "vdt_globus_data_server", "dpm-devel"]: 
-    ensure=> latest,
-    notify => Exec["glite_ldconfig"], 
+  package { 
+    "DPM-DSI":
+      ensure => latest,
+      notify => Exec["glite_ldconfig"];
+    "dpm-devel":
+      ensure => latest,
+      notify => Exec["glite_ldconfig"];
   }
 
   file { 
@@ -53,7 +57,7 @@ class dpm::gridftp {
     hasstatus  => true,
     subscribe  => File["dpm-gsiftp-sysconfig"],
     require    => [ 
-        Package["DPM-DSI"], Package["vdt_globus_data_server"], Package["dpm-devel"],
+        Package["DPM-DSI"], Package["dpm-devel"],
         File["dpm-gsiftp-sysconfig"], File["dpm-gsiftp-logdir"], File["dpm-gsiftp-logfile"] 
     ],
   }

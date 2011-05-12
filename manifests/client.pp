@@ -11,12 +11,15 @@
 # CERN IT/GT/DMS <it-dep-gt-dms@cern.ch>
 #
 class dpm::client  {
-  include glite
+  include grid-common
 
   package { 
     "dpm": 
       ensure => latest, 
-      notify => Exec["glite_ldconfig"];
+      notify => $grid_flavour ? {
+        "glite" => Exec["glite_ldconfig"],
+        default => undef,
+      }
   }
 
   file {

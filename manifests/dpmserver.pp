@@ -17,7 +17,10 @@ class dpm::dpmserver {
 
   package { "DPM-server-mysql":
       ensure  => latest, 
-      notify  => Exec["glite_ldconfig"],
+      notify  => $grid_flavour ? {
+        "glite" => Exec["glite_ldconfig"],
+        default => undef,
+      },
       require => Package["lcg-CA"],
   }
 
@@ -65,7 +68,10 @@ class dpm::dpmserver {
   }
 
   mysql::server::db { "dpm_db":
-    source => "/opt/lcg/share/DPM/create_dpm_tables_mysql.sql",
+    source => $grid_flavour ? {
+      "glite" => "/opt/lcg/share/DPM/create_dpm_tables_mysql.sql",
+      default => "/usr/share/DPM/create_dpm_tables_mysql.sql",
+    },
   }
 
   dpm::shift::trust_entry { "trustentry_dpm": component => "DPM", }

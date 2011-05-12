@@ -12,14 +12,34 @@
 # CERN IT/GT/DMS <it-dep-gt-dms@cern.ch>
 #
 class dpm::service {
-  include glite
+  include grid-common
   include dpm::lcgdmmap
   include dpm::shift
 
-  package { 
-    "vdt_globus_essentials": 
-      ensure => latest, 
-      notify => Exec["glite_ldconfig"]
+  case $grid_flavour {
+    "glite": {
+      package { 
+        "vdt_globus_essentials": 
+          ensure => latest, 
+          notify => Exec["glite_ldconfig"]
+      }
+      file {
+        "/opt":
+          ensure  => directory,
+          owner   => root,
+          group   => root;
+        "/opt/lcg":
+          ensure  => directory,
+          owner   => root,
+          group   => root,
+          require => File["/opt"];
+        "/opt/lcg/etc":
+          ensure  => directory,
+          owner   => root,
+          group   => root,
+          require => File["/opt/lcg"];
+      }
+    }
   }
   
   group { "dpmmgr":
@@ -66,21 +86,11 @@ class dpm::service {
       require => [ 
           File["/etc/grid-security/hostkey.pem"], File["/etc/grid-security/dpmmgr"], User["dpmmgr"] 
       ];
-    "/opt":
-      ensure  => directory,
-      owner   => root,
-      group   => root;
-    "/opt/lcg":
-      ensure  => directory,
-      owner   => root,
-      group   => root,
-      require => File["/opt"];
-    "/opt/lcg/etc":
-      ensure  => directory,
-      owner   => root,
-      group   => root,
-      require => File["/opt/lcg"];
-    "/opt/lcg/etc/lcgdm-mapfile":
+    "lcgdm-mapfile":
+      name    => $grid_flavour ? {
+        "glite" => "/opt/lcg/etc/lcgdm-mapfile",
+        default => "/etc/lcgdm-mapfile",
+      },
       ensure  => present,
       owner   => dpmmgr,
       group   => dpmmgr,
