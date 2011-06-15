@@ -40,7 +40,6 @@ class dpm::dav {
     hasrestart => true,
     hasstatus  => true,
     subscribe  => File["dpm-dav-conf"],
-    path       => ["/etc/init.d", "/opt/lcg/etc/init.d"],
     require    => [ Package["dpm-dav", "mod_ssl"], File["dpm-dav-conf"], ],
   }
 }
