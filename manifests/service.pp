@@ -95,9 +95,10 @@ class dpm::service {
       owner   => dpmmgr,
       group   => dpmmgr,
       mode    => 600,
-      require => [
-          File["/opt/lcg/etc"], User["dpmmgr"]
-      ];
+      require => $grid_flavour ? {
+        "glite" => [ File["/opt/lcg/etc"], User["dpmmgr"] ],
+        default => [ User["dpmmgr"] ],
+      };
     "/usr/share/augeas/lenses/dist/shift.aug":
       ensure  => present,
       owner   => root,
