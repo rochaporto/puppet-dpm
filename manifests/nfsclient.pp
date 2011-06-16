@@ -18,6 +18,12 @@ class dpm::nfsclient {
   package { "autofs": ensure => latest, }
 
   file {
+    "/etc/sysconfig/modules/nfs_layout_nfsv41_files.modules":
+      ensure  => present,
+      owner   => root,
+      group   => root,
+      mode    => 755,
+      content => template("dpm/nfs_layout_nfsv41_files.modules");
     "/usr/share/augeas/lenses/dist/autofs.aug":
       ensure  => present,
       owner   => root,
