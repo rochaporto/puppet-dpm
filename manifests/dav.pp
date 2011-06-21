@@ -17,8 +17,6 @@ class dpm::dav {
     "dpm-dav":
       ensure => latest,
       notify => Exec["glite_ldconfig"];
-    "mod_ssl":
-      ensure => latest,
   }
 
   file {
@@ -40,6 +38,6 @@ class dpm::dav {
     hasrestart => true,
     hasstatus  => true,
     subscribe  => File["dpm-dav-conf"],
-    require    => [ Package["dpm-dav", "mod_ssl"], File["dpm-dav-conf"], ],
+    require    => [ Package["dpm-dav"], File["dpm-dav-conf"], ],
   }
 }
