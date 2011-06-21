@@ -26,12 +26,12 @@ class dpm::nagios::headnode inherits dpm::nagios {
       ensure                => "present",
       host_name             => "$fqdn",
       service_description   => "DPNS service performance check: ${fqdn}",
-      check_command         => "check_nrpe!check_dpns_perf!$dpm_ns_host 300 500 10";
+      check_command         => "check_nrpe!check_dpns_perf!3 5 10";
     "check_dpm_perf_${fqdn}":
       ensure                => "present",
       host_name             => "$fqdn",
       service_description   => "DPM service performance check: ${fqdn}",
-      check_command         => "check_nrpe!check_dpm_perf!$dpm_ns_host 30 500 10";
+      check_command         => "check_nrpe!check_dpm_perf!3 5 10";
     "check_dpm_pool_${fqdn}":
       ensure                => "present",
       host_name             => "$fqdn",
