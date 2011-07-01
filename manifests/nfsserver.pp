@@ -14,29 +14,26 @@
 class dpm::nfsserver {
 
   package { 
-    "nfs-ganesha-common": 
+    "dpm-nfs-server": 
       ensure => latest;
-    "nfs-ganesha-dpm": 
-      ensure  => latest,
-      require => Package["nfs-ganesha-common"];
   }
 
   file {
-    "conf-ganesha-dpm":
-      name    => "/etc/ganesha/ganesha.conf",
-      owner   => dpmmgr,
-      group   => dpmmgr,
+    "conf-dpm-nfs":
+      name    => "/etc/dpm-nfs.conf",
+      owner   => root,
+      group   => root,
       mode    => 0600,
-      content => template("dpm/ganesha.conf.erb"),
-      require => Package["nfs-ganesha-dpm"];
+#      content => template("dpm/ganesha.conf.erb"),
+      require => Package["dpm-nfs-server"];
   }
 
-  service { "nfs-ganesha-dpm":
+  service { "dpm-nfs":
     ensure     => running,
     enable     => true,
     hasrestart => true,
-    subscribe  => File["conf-ganesha-dpm"],
-    require    => [ Package["nfs-ganesha-common", "nfs-ganesha-dpm"], File["conf-ganesha-dpm"], ],
+    subscribe  => File["conf-dpm-nfs"],
+    require    => [ Package["dpm-nfs-server"], File["conf-dpm-nfs"], ],
     status     => "ps aux | grep ganesha", # TODO: remove this once the init script 'status' works
   }
 
