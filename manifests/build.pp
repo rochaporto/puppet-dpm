@@ -11,7 +11,8 @@ class dpm::build {
 
   package { 
     ["subversion", "globus-gss-assist-devel", "globus-gssapi-gsi-devel", "voms-devel", 
-     "mysql-devel", "python-devel", "gsoap-devel", "CGSI-gSOAP-devel", "lcg-CA"]:
+     "mysql-devel", "python-devel", "gsoap", "gsoap2.7-devel", "lcg-CA", "CGSI_gSOAP_2.7-devel", 
+     "swig", "argus-pep-api-c-devel"]:
       ensure => present,
   }
 }
