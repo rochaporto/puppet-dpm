@@ -13,10 +13,15 @@ class dpm::nagios::headnode inherits dpm::nagios {
 
   # TODO: This should only be overwriting hostgroups, the rest should be simply defined in nagios::target
   @@nagios_host { $fqdn:
-    hostgroups => "dpm-headnodes",
+    hostgroups         => "dpm-headnodes",
   }
 
   @@nagios_service { 
+    "check_srm_${fqdn}":
+      ensure                => "present",
+      host_name             => "$fqdn",
+      service_description   => "SRM service check listening at: ${fqdn}",
+      check_command         => "check_nrpe!check_srm!50 80";
     "check_dpns_${fqdn}":
       ensure                => "present",
       host_name             => "$fqdn",

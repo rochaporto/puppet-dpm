@@ -12,7 +12,7 @@
 class dpm::nagios::disknode inherits dpm::nagios {
 
   @@nagios_host { $fqdn:
-    hostgroups => "dpm-disknodes",
+    hostgroups         => "dpm-disknodes",
   }
 
 #  @@nagios_service { 
