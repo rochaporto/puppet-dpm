@@ -24,7 +24,7 @@ class dpm::nfsserver {
       owner   => root,
       group   => root,
       mode    => 0600,
-#      content => template("dpm/ganesha.conf.erb"),
+      content => template("dpm/dpm-nfs.conf.erb"),
       require => Package["dpm-nfs-server"];
   }
 
